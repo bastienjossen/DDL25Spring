@@ -82,12 +82,12 @@ For the final step, teams must submit a written report and give a 20-minute pres
 | Week 4 (Mar 10)  | Federated Learning II (Vertical)    | HW 1 Q&A                 | HW 1             |
 | Week 5 (Mar 17)  | Heterogeneous and Multi-modality FL | Generative FL            | Project proposal |
 | Week 6 (Mar 24)  | Federated Generative AI             | Vertical FL              |                  |
-| Week 7 (Mar 31)  | Hyper-parameter Tuning              | HW 2 Q&A                 |                  |
-| Week 8 (Apr 7)   | Robust Distributed Learning         | Attacks                  | HW2              |
-| Week 9 (Apr 14)  | Attacks and Defenses I *(online)*   | Defenses                 | Project midterm  |
+| Week 7 (Mar 31)  |  Robust Distributed Learning       | HW 2 Q&A                 |                  |
+| Week 8 (Apr 7)   |  Attacks and Defenses I         | Attacks                  | HW2              |
+| Week 9 (Apr 14)  | No lecture   | Defenses                 | Project midterm (online)  |
 | Week 10 (Apr 21) | *No Lecture*                        | *No Lab*                 |                  |
 | Week 11 (Apr 28) | Attacks and Defenses II             | HW 3 Q&A                 |                  |
-| Week 12 (May 5)  | Privacy Enhancing Technology for FL | HW review + project Q&A  | Hw3              |
-| Week 13 (May 12) | Distributed Inference               | *No Lab*                 |                  |
-| Week 14 (May 19) | *No Lecture*                        | *No Lab*                 |                  |
+| Week 12 (May 5)  | Privacy Enhancing Technology  | HW review + project Q&A  | Hw3              |
+| Week 13 (May 12) |   Distributed Inference               | *No Lab*                 |                  |
+| Week 14 (May 19) | Hyper-parameter Tuning                              | *No Lab*                 |                  |
 | Week 15 (May 26) | Project presentation                | *No Lab*                 |Project report    |

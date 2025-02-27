@@ -98,8 +98,8 @@ def split(nr_clients: int, iid: bool, seed: int) -> list[Subset]:
         shards = np.array_split(sorted_indices, 2 * nr_clients)
         shuffled_shard_indices = rng.permutation(len(shards))
         splits = [
-            np.concatenate([shards[i] for i in inds], dtype=np.int64)
-            for inds in shuffled_shard_indices.reshape(-1, 2)]
+            np.concatenate([shards[i] for i in shard_ind_pairs], dtype=np.int64)
+            for shard_ind_pairs in shuffled_shard_indices.reshape(nr_clients, 2)]
 
     return [Subset(train_dataset, split) for split in cast(list[list[int]], splits)]
 
@@ -113,11 +113,11 @@ from pandas import DataFrame
 @dataclass
 class RunResult:
     algorithm: str
-    n: int  # number of clients
-    c: float  # client_fraction
-    b: int  # take -1 as inf
-    e: int  # nr_local_epochs
-    lr: float  # printed as lowercase eta
+    n: int      # number of clients
+    c: float    # client_fraction
+    b: int      # take -1 as inf
+    e: int      # nr_local_epochs
+    lr: float   # printed as lowercase eta
     seed: int
     wall_time: list[float] = field(default_factory=list)
     message_count: list[int] = field(default_factory=list)
@@ -150,7 +150,6 @@ class Client(ABC):
             client_data, batch_size=batch_size, shuffle=True,
             drop_last=False, generator=self.generator)
 
-
     @abstractmethod
     def update(self, weights: list[torch.Tensor], seed: int) -> list[torch.Tensor]:
         ...
@@ -166,11 +165,9 @@ class Server(ABC):
         torch.manual_seed(seed)
         self.model = MnistCnn().to(device)
 
-
     @abstractmethod
     def run(self, nr_rounds: int) -> RunResult:
         ...
-
 
     def test(self) -> float:
         correct = 0
@@ -302,8 +299,8 @@ class FedSgdGradientServer(DecentralizedServer):
                 torch.stack(x, dim=0).sum(dim=0) for x in zip(*chosen_adjusted_gradients)]
 
             with torch.no_grad():
-                zip_gradient_parameter = zip(averaged_chosen_gradients, self.model.parameters())
-                for client_gradient, server_parameter in zip_gradient_parameter:
+                zip_parameter_gradient = zip(self.model.parameters(), averaged_chosen_gradients)
+                for server_parameter, client_gradient in zip_parameter_gradient:
                     server_parameter.grad = client_gradient.to(device=device)
 
             self.optimizer.step()
@@ -321,7 +318,6 @@ class WeightClient(Client):
         super().__init__(client_data, batch_size)
         self.optimizer = SGD(params=self.model.parameters(), lr=lr)
         self.nr_epochs = nr_epochs
-
 
     def update(self, weights: list[torch.Tensor], seed: int) -> list[torch.Tensor]:
         with torch.no_grad():
@@ -382,8 +378,8 @@ class FedAvgServer(DecentralizedServer):
                 torch.stack(x, dim=0).sum(dim=0) for x in zip(*chosen_adjusted_weights)]
 
             with torch.no_grad():
-                zip_weight_parameter = zip(averaged_chosen_weights, self.model.parameters())
-                for client_weight, server_parameter in zip_weight_parameter:
+                zip_parameter_weight = zip(self.model.parameters(), averaged_chosen_weights)
+                for server_parameter, client_weight in zip_parameter_weight:
                     server_parameter[:] = client_weight.to(device=device)
 
             elapsed_time += perf_counter() - aggregate_start_time
