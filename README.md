@@ -74,20 +74,23 @@ For the final step, teams must submit a written report and give a 20-minute pres
 
 ## 6. Detailed schedule
 
-| Week             | Lecture Topic                       | Lab Topic                | Assignment Due   |
-|:-----------------|:------------------------------------|:-------------------------|:-----------------|
-| Week 1 (Feb 17)  | Distributed Machine Learning I      | *No Lab*                 |                  |
-| Week 2 (Feb 24)  | Memory and Acceleration Technology  | Horizontal FL            |                  |
-| Week 3 (Mar 3)   | Federated Learning I (Horizontal)   | Data & Model Parallelism |                  |
-| Week 4 (Mar 10)  | Federated Learning II (Vertical)    | HW 1 Q&A                 | HW 1             |
-| Week 5 (Mar 17)  | Heterogeneous and Multi-modality FL | Generative FL            | Project proposal |
-| Week 6 (Mar 24)  | Federated Generative AI             | Vertical FL              |                  |
-| Week 7 (Mar 31)  |  Robust Distributed Learning       | HW 2 Q&A                 |                  |
-| Week 8 (Apr 7)   |  Attacks and Defenses I         | Attacks                  | HW2              |
-| Week 9 (Apr 14)  | No lecture   | Defenses                 | Project midterm (online)  |
-| Week 10 (Apr 21) | *No Lecture*                        | *No Lab*                 |                  |
-| Week 11 (Apr 28) | Attacks and Defenses II             | HW 3 Q&A                 |                  |
-| Week 12 (May 5)  | Privacy Enhancing Technology  | HW review + project Q&A  | Hw3              |
-| Week 13 (May 12) |   Distributed Inference               | *No Lab*                 |                  |
-| Week 14 (May 19) | Hyper-parameter Tuning                              | *No Lab*                 |                  |
-| Week 15 (May 26) | Project presentation                | *No Lab*                 |Project report    |
+### All assignments are due before the lecture/lab day of the noted week.
+
+
+| Week             | Lecture Topic                       | Lab Topic                | Assignment Due           |
+|:-----------------|:------------------------------------|:-------------------------|:-------------------------|
+| Week 1 (Feb 17)  | Distributed Machine Learning I      | *No Lab*                 |                          |
+| Week 2 (Feb 24)  | Memory and Acceleration Technology  | Horizontal FL            |                          |
+| Week 3 (Mar 3)   | Federated Learning I (Horizontal)   | Data & Model Parallelism |                          |
+| Week 4 (Mar 10)  | Federated Learning II (Vertical)    | HW 1 Q&A                 |                          |
+| Week 5 (Mar 17)  | Heterogeneous and Multi-modality FL | Generative FL            | HW 1                     |
+| Week 6 (Mar 24)  | Federated Generative AI             | Vertical FL              | Project proposal         |
+| Week 7 (Mar 31)  |  Robust Distributed Learning        | HW 2 Q&A                 |                          |
+| Week 8 (Apr 7)   |  Attacks and Defenses I             | Attacks                  | HW 2                     |
+| Week 9 (Apr 14)  | Project interview (online)          | Defenses                 | Project midterm          |
+| Week 10 (Apr 21) | *No lecture*                        | *No Lab*                 |                          |
+| Week 11 (Apr 28) | Attacks and Defenses II             | HW 3 Q&A                 |                          |
+| Week 12 (May 5)  | Privacy Enhancing Technology        | *No Lab*                 | HW 3                     |
+| Week 13 (May 12) |   Distributed Inference             | HW review + project Q&A  |                          |
+| Week 14 (May 19) | Hyper-parameter Tuning              | *No Lab*                 |                          |
+| Week 15 (May 26) | Project presentation                | *No Lab*                 | Project endterm          |
