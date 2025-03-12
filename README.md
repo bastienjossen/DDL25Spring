@@ -37,7 +37,7 @@ The course materials are based on classic and recently published papers.
 ## 4. Course team
 
 This course is mainly taught by [Prof. Lydia Y Chen](https://lydiaychen.github.io/).
-The TAs are Abel Malan, Aditya Shankar, Chaoyi Zhu, and Bart Cox, who run the lab and grade homework.
+The TAs are [Abel Malan](mailto:abele.malan@unine.ch), Aditya Shankar, Chaoyi Zhu, and Bart Cox, who run the lab and grade homework.
 
 Lydia is the responsible instructor for this course and can be reached at **lydiaychen@ieee.org**.
 
