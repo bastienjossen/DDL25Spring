@@ -19,7 +19,7 @@ num_heads = 6
 n_layers = 6 // world_size
 seq_l = 256
 batch_size = 3
-device = "cuda"
+device = "mps"
 
 # make the tokenizer
 
