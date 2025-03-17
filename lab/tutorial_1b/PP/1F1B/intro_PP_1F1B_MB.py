@@ -51,10 +51,12 @@ for itr in range(5_000):
     if rank == 0:
         full_batch = next(iter_ds).to(device)
         embedded = net.embed(full_batch)
+        saved_embedded = embedded  # save for backward
         microbatches = torch.chunk(embedded, num_microbatches, dim=0)
         for micro in microbatches:
             req = dist.isend(tensor=micro.to("cpu"), dst=1)
             req.wait()
+
 
     elif rank == 1:
 
@@ -66,11 +68,13 @@ for itr in range(5_000):
             req.wait()
             microbatches_in.append(recv_tensor)
         processed_out = []
+        device_microbatches = []  # new list to hold the device tensors
         for micro in microbatches_in:
-            micro = micro.to(device)
-            micro.requires_grad_()
-            micro.retain_grad()
-            out_micro = net(micro)
+            dmicro = micro.to(device)
+            dmicro.requires_grad_()
+            dmicro.retain_grad()
+            device_microbatches.append(dmicro)
+            out_micro = net(dmicro)
             processed_out.append(out_micro)
         for out_micro in processed_out:
             req = dist.isend(tensor=out_micro.to("cpu"), dst=2)
@@ -113,10 +117,10 @@ for itr in range(5_000):
             microbatches_grads.append(grad_tensor)
         for out_micro, grad_tensor in zip(processed_out, microbatches_grads):
             out_micro.backward(grad_tensor.to(device))
-        for micro in microbatches_in:
-            # make sure you're sending the gradient from 'micro', not 'recv_tensor'
-            req = dist.isend(tensor=micro.grad.to("cpu"), dst=0)
+        for dmicro in device_microbatches:
+            req = dist.isend(tensor=dmicro.grad.to("cpu"), dst=0)
             req.wait()
+
     elif rank == 0:
         micro_batch_size = batch_size // num_microbatches
         microbatches_grads = []
@@ -125,8 +129,13 @@ for itr in range(5_000):
             req = dist.irecv(tensor=grad_tensor, src=1)
             req.wait()
             microbatches_grads.append(grad_tensor)
-        for micro, grad_tensor in zip(torch.chunk(net.embed(full_batch), num_microbatches, dim=0), microbatches_grads):
-            micro.backward(grad_tensor.to(device))
+        microbatches_embedded = torch.chunk(saved_embedded, num_microbatches, dim=0)
+        for i, (micro, grad_tensor) in enumerate(zip(microbatches_embedded, microbatches_grads)):
+            if i < len(microbatches_embedded) - 1:
+                micro.backward(grad_tensor.to(device), retain_graph=True)
+            else:
+                micro.backward(grad_tensor.to(device))
+
 
 
     optim.step()

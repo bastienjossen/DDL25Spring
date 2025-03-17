@@ -1,0 +1,11 @@
+Rank 2 (Stage 2): Initializing tokenizer and dataset
+WE HAVE TOKENIZER
+loaded tokenizer
+<sentencepiece.SentencePieceProcessor; proxy of <Swig Object of type 'sentencepiece::SentencePieceProcessor *' at 0x323dcafa0> >
+DONE
+TINYSTORIES DATASET LOADED...
+Rank 2 Iter 0: Starting iteration
+Rank 2 (Stage 2): Starting forward pass
+Rank 2 (Stage 2): Receiving microbatch 0 from rank 1
+Rank 2 (Stage 2): Receiving microbatch 1 from rank 1
+Rank 2 (Stage 2): Receiving microbatch 2 from rank 1
