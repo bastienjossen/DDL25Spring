@@ -102,10 +102,12 @@ class Autoencoder(nn.Module):
             print(
                 f"Epoch: {epoch} Loss: {total_loss.detach().numpy() / num_batches:.3f}")
 
-    def sample(self, nr_samples, mu, logvar):
-        sigma = torch.exp(logvar / 2)
+    def sample(self, nr_samples, dims):
+        # sigma = torch.exp(logvar / 2)
         no_samples = nr_samples
-        q = torch.distributions.Normal(mu.mean(axis=0), sigma.mean(axis=0))
+        sigma = torch.ones(dims)
+        mu = torch.zeros(dims)
+        q = torch.distributions.Normal(mu, sigma)
         z = q.rsample(sample_shape=torch.Size([no_samples]))
         with torch.no_grad():
             pred = self.decode(z).cpu().numpy()
@@ -157,7 +159,7 @@ if __name__ == "__main__":
 
     _, mu, logvar = model.forward(real_data)
 
-    synthetic_data = model.sample(len(real_data), mu, logvar)
+    synthetic_data = model.sample(len(real_data), mu.shape[1])
     synthetic_x = torch.tensor(synthetic_data[:, :-1])
     synthetic_y = torch.tensor(synthetic_data[:, -1]).long()
 
