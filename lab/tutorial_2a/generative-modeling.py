@@ -28,8 +28,8 @@ class Autoencoder(nn.Module):
         #         # Latent vectors mu and sigma
         self.fc1 = nn.Linear(H2, latent_dim)
         self.bn1 = nn.BatchNorm1d(num_features=latent_dim)
-        self.fc21 = nn.Linear(latent_dim, latent_dim)
-        self.fc22 = nn.Linear(latent_dim, latent_dim)
+        self.fc21 = nn.Linear(latent_dim, latent_dim) # mu layer
+        self.fc22 = nn.Linear(latent_dim, latent_dim) # logvariance layer
 
         #         # Sampling vector
         self.fc3 = nn.Linear(latent_dim, latent_dim)
@@ -54,8 +54,8 @@ class Autoencoder(nn.Module):
 
         fc1 = F.relu(self.bn1(self.fc1(lin3)))
 
-        r1 = self.fc21(fc1)
-        r2 = self.fc22(fc1)
+        r1 = self.fc21(fc1) # mu
+        r2 = self.fc22(fc1) # logvar
 
         return r1, r2
 
@@ -102,13 +102,15 @@ class Autoencoder(nn.Module):
             print(
                 f"Epoch: {epoch} Loss: {total_loss.detach().numpy() / num_batches:.3f}")
 
-    def sample(self, nr_samples, dims):
-        # sigma = torch.exp(logvar / 2)
+    def sample(self, nr_samples, dims, logvar, mu):
+        sigma = torch.exp(logvar / 2)
         no_samples = nr_samples
-        sigma = torch.ones(dims)
-        mu = torch.zeros(dims)
-        q = torch.distributions.Normal(mu, sigma)
+        #sigma = torch.ones(dims)
+        #mu = torch.ones(dims) 
+        q = torch.distributions.Normal(mu.mean(dim=0), sigma.mean(dim=0))
         z = q.rsample(sample_shape=torch.Size([no_samples]))
+        print(mu.mean(dim=0))
+        print(sigma.mean(dim=0))
         with torch.no_grad():
             pred = self.decode(z).cpu().numpy()
 
@@ -159,7 +161,7 @@ if __name__ == "__main__":
 
     _, mu, logvar = model.forward(real_data)
 
-    synthetic_data = model.sample(len(real_data), mu.shape[1])
+    synthetic_data = model.sample(len(real_data), mu.shape[1],logvar, mu)
     synthetic_x = torch.tensor(synthetic_data[:, :-1])
     synthetic_y = torch.tensor(synthetic_data[:, -1]).long()
 

@@ -10,7 +10,6 @@ from sys import argv
 
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
-# Set up distributed training for 6 processes (2 pipelines of 3 stages)
 rank = int(argv[1])
 world_size = 6
 os.environ["MASTER_ADDR"] = "localhost"
@@ -18,21 +17,17 @@ os.environ["MASTER_PORT"] = "29500"
 dist.init_process_group("gloo", rank=rank, world_size=world_size)
 torch.manual_seed(0)
 
-# Model and training parameters
 dmodel = 288
 num_heads = 6
-# We split layers equally across 3 stages.
 n_layers = 6 // 3  
 seq_l = 256
 batch_size = 3
 num_microbatches = 3
-device = "cpu"  # Change to "mps" if needed
+device = "cpu"
 
-# Determine pipeline (data parallel) and stage (model parallel) IDs
 pipeline_id = rank // 3   # 0 or 1
 stage_id = rank % 3       # 0, 1, or 2
 
-# Create a distributed group for each stage to reduce gradients across pipelines.
 if stage_id == 0:
     stage_group = dist.new_group(ranks=[0, 3])
 elif stage_id == 1:
@@ -40,9 +35,7 @@ elif stage_id == 1:
 elif stage_id == 2:
     stage_group = dist.new_group(ranks=[2, 5])
 
-# Instantiate model and dataset for each stage:
 if stage_id == 0:
-    # Stage 0: embedding stage; each pipeline gets its own data via skip.
     print(f"Rank {rank} (Stage 0): Initializing tokenizer and dataset", flush=True)
     tokenizer = SPTokenizer()
     net = LLamaFirstStage(tokenizer.vocab_size, dmodel=dmodel, num_heads=num_heads,
@@ -50,12 +43,10 @@ if stage_id == 0:
     ds = TinyStories(tokenizer, batch_size=batch_size, seq_l=seq_l, skip=pipeline_id*3000)
     iter_ds = iter(ds)
 elif stage_id == 1:
-    # Stage 1: intermediate processing stage.
     print(f"Rank {rank} (Stage 1): Initializing model", flush=True)
     net = LLamaStage(dmodel=dmodel, num_heads=num_heads,
                      device=device, n_layers=n_layers, ctx_size=seq_l)
 elif stage_id == 2:
-    # Stage 2: de-embedding and loss computation; each pipeline gets its own targets.
     print(f"Rank {rank} (Stage 2): Initializing tokenizer and dataset", flush=True)
     tokenizer = SPTokenizer()
     net = LLamaLastStage(tokenizer.vocab_size, dmodel=dmodel, num_heads=num_heads,
@@ -65,19 +56,17 @@ elif stage_id == 2:
 
 optim = Adam(net.parameters(), lr=8e-4)
 
-# Main training loop
 for itr in range(50):
     print(f"Rank {rank} Iter {itr}: Starting iteration", flush=True)
     optim.zero_grad()
 
-    # -----------------------
-    # FORWARD PASS
-    # -----------------------
+    
+    # FORWARD PASS (Forward Pipeline)
     if stage_id == 0:
         print(f"Rank {rank} (Stage 0): Starting forward pass", flush=True)
         full_batch = next(iter_ds).to(device)
         embedded = net.embed(full_batch)
-        saved_embedded = embedded  # Save for backward pass.
+        saved_embedded = embedded  
         microbatches = torch.chunk(embedded, num_microbatches, dim=0)
         # Batch asynchronous sends to stage 1.
         send_reqs = []
@@ -168,7 +157,7 @@ for itr in range(50):
             microbatches_in.append(tensor)
         full_target = next(iter_ds).to(device)
         target_microbatches = torch.chunk(full_target, num_microbatches, dim=0)
-        processed_out_2 = []  # For storing input microbatches for backward.
+        processed_out_2 = [] 
         for i, (micro, target_micro) in enumerate(zip(microbatches_in, target_microbatches)):
             dmicro = micro.to(device)
             dmicro.requires_grad_()

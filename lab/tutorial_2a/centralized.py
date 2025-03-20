@@ -29,7 +29,7 @@ class HeartDiseaseNN(nn.Module):
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(Path(__file__).parent / "heart-dataset" / "heart.csv")
+    df = pd.read_csv(Path(__file__).parent / "heart.csv")
     categorical = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal']
     encoded_df = pd.get_dummies(df, columns=categorical)
     X = encoded_df.drop("target", axis=1)
