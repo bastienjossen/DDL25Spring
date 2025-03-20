@@ -37,7 +37,7 @@ The course materials are based on classic and recently published papers.
 ## 4. Course team
 
 This course is mainly taught by [Prof. Lydia Y Chen](https://lydiaychen.github.io/).
-The TAs are [Abel Malan](mailto:abele.malan@unine.ch), Aditya Shankar, Chaoyi Zhu, and Bart Cox, who run the lab and grade homework.
+The TAs are [Abel Malan](mailto:abele.malan@unine.ch), Nikolay Blagoev, [Aditya Shankar](mailto:a.shankar@tudelft.nl), and Chaoyi Zhu, who run the lab and grade homework.
 
 Lydia is the responsible instructor for this course and can be reached at **lydiaychen@ieee.org**.
 
@@ -59,7 +59,7 @@ The grade of this course is determined through three components:
 - Homework 2: due in week 8
 - Homework 3: due in week 12
 
-Students are given an additional 48-hour grace period for late submission without receiving any grade penalty. However, submissions after the grace period are not considered, and students will have the corresponding 10% of their final grade set as 0.
+Submissions after the grace period are not considered, and students will have the corresponding 10% of their final grade set as 0.
 
 ### 5.2. Group projects
 

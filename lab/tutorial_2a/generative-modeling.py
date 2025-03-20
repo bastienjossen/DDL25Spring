@@ -1,7 +1,6 @@
 from torch import nn, optim
 import torch
 import torch.nn.functional as F
-from torch.autograd import Variable
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -62,7 +61,7 @@ class Autoencoder(nn.Module):
     def reparameterize(self, mu, logvar):
         if self.training:
             std = logvar.mul(0.5).exp_()
-            eps = Variable(std.data.new(std.size()).normal_())
+            eps = torch.randn_like(std)
             return eps.mul(std).add_(mu)
         else:
             return mu
