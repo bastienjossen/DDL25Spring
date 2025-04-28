@@ -37,7 +37,7 @@ The course materials are based on classic and recently published papers.
 ## 4. Course team
 
 This course is mainly taught by [Prof. Lydia Y Chen](https://lydiaychen.github.io/).
-The TAs are [Abel Malan](mailto:abele.malan@unine.ch), Aditya Shankar, Chaoyi Zhu, and Bart Cox, who run the lab and grade homework.
+The TAs are [Abel Malan](mailto:abele.malan@unine.ch), Nikolay Blagoev, [Aditya Shankar](mailto:a.shankar@tudelft.nl), and Chaoyi Zhu, who run the lab and grade homework.
 
 Lydia is the responsible instructor for this course and can be reached at **lydiaychen@ieee.org**.
 
@@ -59,7 +59,7 @@ The grade of this course is determined through three components:
 - Homework 2: due in week 8
 - Homework 3: due in week 12
 
-Students are given an additional 48-hour grace period for late submission without receiving any grade penalty. However, submissions after the grace period are not considered, and students will have the corresponding 10% of their final grade set as 0.
+Submissions after the grace period are not considered, and students will have the corresponding 10% of their final grade set as 0.
 
 ### 5.2. Group projects
 
@@ -87,10 +87,10 @@ For the final step, teams must submit a written report and give a 20-minute pres
 | Week 6 (Mar 24)  | Federated Generative AI             | Vertical FL              | Project proposal         |
 | Week 7 (Mar 31)  |  Robust Distributed Learning        | HW 2 Q&A                 |                          |
 | Week 8 (Apr 7)   |  Attacks and Defenses I             | Attacks                  | HW 2                     |
-| Week 9 (Apr 14)  | Project interview (online)          | Defenses                 | Project midterm          |
-| Week 10 (Apr 21) | *No lecture*                        | *No Lab*                 |                          |
+| Week 9 (online)  | Project interview (*Apr 16*)        | Defenses (*Apr 14*)      | Project midterm          |
+| Week 10 (Apr 21) | *No lecture*                        | *No lab*                 |                          |
 | Week 11 (Apr 28) | Attacks and Defenses II             | HW 3 Q&A                 |                          |
 | Week 12 (May 5)  | Privacy Enhancing Technology        | *No Lab*                 | HW 3                     |
 | Week 13 (May 12) |   Distributed Inference             | HW review + project Q&A  |                          |
-| Week 14 (May 19) | Hyper-parameter Tuning              | *No Lab*                 |                          |
-| Week 15 (May 26) | Project presentation                | *No Lab*                 | Project endterm          |
+| Week 14 (May 19) | Hyper-parameter Tuning              | *No lab*                 |                          |
+| Week 15 (May 26) | Project presentation                | *No lab*                 | Project endterm          |
