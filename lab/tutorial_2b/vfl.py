@@ -105,7 +105,7 @@ class VFLNetwork(nn.Module):
 if __name__ == "__main__":
     torch.manual_seed(42)
     np.random.seed(42)
-    df = pd.read_csv("../tutorial_2a/heart.csv")
+    df = pd.read_csv(Path(__file__).parent / "heart-dataset" / "heart.csv")
     categorical_cols = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal']
     numerical_cols = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak']
     df[numerical_cols] = MinMaxScaler().fit_transform(df[numerical_cols])
